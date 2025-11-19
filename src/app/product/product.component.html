@@ -38,3 +38,10 @@
     <tr *ngIf="( products | async)?.length == 0"> No Record </tr>
   </tbody>
 </table>
+
+<button (click)="showAll()">Show all</button>
+
+
+<button (click)="showAllWrong()">Show all wrong</button>
+
+<button (click)="showAllExtra()">Show all extra</button>
