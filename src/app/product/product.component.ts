@@ -11,6 +11,8 @@ import {loadItemsWithExtra} from './../product/Actions/product.action';
 })
 export class ProductComponent implements OnInit {
   products: Observable<Product[]>; //observable of arrays of Product objects.
+  showAllTriggered: boolean = false; // Track if 'Show all' action is triggered
+
   constructor(private store: Store<AppState>) { /* Dependency Injection: Injects Store<AppState> for state management.
     Private Access: Restricts store access within the component.
     Store<AppState>: References the application state store. */ //TODO - --------------EXPLAIN---------
@@ -41,8 +43,12 @@ export class ProductComponent implements OnInit {
   }
 
   showAll() {
-    this.store.dispatch({type:'[Items] Load Items'}) //why in square brackets?
-
+    this.store.dispatch({ type: '[Items] Load Items' });
+    this.store.select(state => state.product).subscribe(products => {
+      if (products.length > 0) {
+        this.showAllTriggered = true; // Set flag after reducer updates the state
+      }
+    });
   }
 
   showAllWrong() {

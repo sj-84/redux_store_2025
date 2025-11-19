@@ -45,3 +45,15 @@
 <button (click)="showAllWrong()">Show all wrong</button>
 
 <button (click)="showAllExtra()">Show all extra</button>
+
+<div *ngIf="showAllTriggered && (products | async)?.length; else noProducts">
+  <h3>Product List</h3>
+  <ul>
+    <li *ngFor="let product of products | async">
+      <strong>Name:</strong> {{ product.name }}, <strong>Price:</strong> {{ product.price }}
+    </li>
+  </ul>
+</div>
+<ng-template #noProducts>
+  <p>No products available.</p>
+</ng-template>

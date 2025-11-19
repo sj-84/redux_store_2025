@@ -18,11 +18,12 @@ export function addProductReducer(state: Product[] = [], action :any) { /* Purpo
         Payload Expectation: action.payload should be a valid Product object. */
     
     case 'Wrong_case':
-        return {...state, wrong: true}; 
+        console.error('Invalid action type: Wrong_case'); // Log an error for debugging
+        return state; // Return the unchanged state
 
 
     case '[Items] Load Items':
-        return state;
+        return state; // Return the current state to show all items entered by the user
 
     case loadItemsWithExtra.type:
         return {...state, extra: true};
