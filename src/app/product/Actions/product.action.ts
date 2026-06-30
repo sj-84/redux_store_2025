@@ -1,11 +1,12 @@
-import { createAction, props } from '@ngrx/store';
-export const loadItems = createAction('[Items] Load Items');
+import { createAction, props } from '@ngrx/store'; // Import createAction from NgRx so actions can be written cleanly.
+export const loadItems = createAction('[Items] Load Items'); // Create an action with a simple type string.
 /* export const addItem = createAction(
     '[Items] Add Item',
     props<{ item: string }>()
   ); */
 
-  export const loadItemsWithExtra = createAction('[Items] Load Items Extra'); //creates a function - createAction is a function in NgRx (Angular’s reactive state management library) used to define actions in a more type-safe, readable, and maintainable way. Actions in NgRx represent events that trigger state changes, and createAction makes it easy to define these events with optional payloads.
+  export const loadItemsWithExtra = createAction('[Items] Load Items Extra'); // This creates a function that returns an action object with the given type.
+  // In NgRx, actions describe what happened in the app, such as "load items" or "add product".
 
 //   it returns  - {
 //   type: '[Items] Add Item',   // The unique type identifier of the action

@@ -1,27 +1,27 @@
-import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core'; // Angular decorator used to define the module.
+import { BrowserModule } from '@angular/platform-browser'; // Browser-specific Angular modules.
 
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { ProductComponent } from './product/product.component';
-import { StoreModule } from '@ngrx/store';
-import { addProductReducer } from './Reducers/product.reducer';
+import { AppRoutingModule } from './app-routing.module'; // Routing module for navigation support.
+import { AppComponent } from './app.component'; // Root app component.
+import { ProductComponent } from './product/product.component'; // Product component that uses the store.
+import { StoreModule } from '@ngrx/store'; // NgRx Store module for state management.
+import { addProductReducer } from './Reducers/product.reducer'; // The reducer that handles product state changes.
 
 @NgModule({
   declarations: [
-    AppComponent,
-    ProductComponent
+    AppComponent, // Declare the root component.
+    ProductComponent // Declare the product component so Angular can use it in templates.
   ],
   imports: [
-    BrowserModule,
-    AppRoutingModule,
-    StoreModule.forRoot({product: addProductReducer}) //for now work with 1 reducer, not sure how to use multiple reducers
+    BrowserModule, // Required for browser-based Angular apps.
+    AppRoutingModule, // Enables routing support.
+    StoreModule.forRoot({product: addProductReducer}) // Register the global store and connect the product slice to the reducer.
   ],
   /*
 The line StoreModule.forRoot({product: addProductReducer}) registers NgRx state management in your Angular app. It sets up a single state slice called product, managed by the addProductReducer function. This enables centralized, immutable state for products, allowing actions to update the product state and making it accessible throughout the app. To add more state slices, add more keys to the object passed to forRoot.
   */
-  providers: [],
-  bootstrap: [AppComponent]
+  providers: [], // Services can be added here later if needed.
+  bootstrap: [AppComponent] // The app starts with AppComponent.
 })
 export class AppModule { }
 

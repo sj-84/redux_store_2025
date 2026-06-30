@@ -1,59 +1,134 @@
-<div class="panel panel-primary">
-  <div class="panel-body">
-    <form>
-      <div class="form-group">
-        <label class="col-md-4">Product Name</label>
-        <input type="text" class="form-control" #productName />
-      </div>
-      <div class="form-group">
-        <label class="col-md-4">Product Price</label>
-        <input type="text" class="form-control" #productPrice />
-      </div>
-      <div class="form-group">
+<div class="product-container">
+  <div class="stats-row">
+    <mat-card class="stat-card">
+      <mat-card-content>
+        <mat-icon class="stat-icon blue">inventory_2</mat-icon>
+        <div class="stat-info">
+          <span class="stat-value">{{ productCount() }}</span>
+          <span class="stat-label">Total Products</span>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="stat-card">
+      <mat-card-content>
+        <mat-icon class="stat-icon green">attach_money</mat-icon>
+        <div class="stat-info">
+          <span class="stat-value">{{ totalRevenue() | number:'1.2-2' }}</span>
+          <span class="stat-label">Total Revenue</span>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <mat-card class="form-card">
+    <mat-card-header>
+      <mat-card-title>Add New Product</mat-card-title>
+      <mat-card-subtitle>Enter product details below</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="form-row">
+        <mat-form-field appearance="outline" class="form-field">
+          <mat-label>Product Name</mat-label>
+          <input
+            matInput
+            [value]="productName()"
+            (input)="productName.set($any($event.target).value)"
+            placeholder="Enter product name"
+          />
+          <mat-icon matSuffix>label</mat-icon>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="form-field">
+          <mat-label>Price</mat-label>
+          <input
+            matInput
+            type="number"
+            [value]="productPrice()"
+            (input)="productPrice.set(+$any($event.target).value)"
+            placeholder="0.00"
+          />
+          <mat-icon matSuffix>attach_money</mat-icon>
+        </mat-form-field>
+
         <button
-          (click)="addProduct(productName.value, productPrice.value)"
-          class="btn btn-primary"
-          type="button"
+          mat-fab
+          extended
+          color="primary"
+          [disabled]="!isFormValid()"
+          (click)="addProduct()"
         >
+          <mat-icon>add</mat-icon>
           Add Product
         </button>
       </div>
-    </form>
-  </div>
-</div><br />
-<table class="table table-hover" border="1">
-  <thead>
-    <tr>
-      <td>S.No.</td>
-      <td>Product Name</td>
-      <td>Product Price</td>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let product of products | async; let i =index;">
-      <td>{{i+1}}</td>
-      <td>{{product.name}}</td>
-      <td>{{product.price}}</td>
-    </tr>
-    <tr *ngIf="( products | async)?.length == 0"> No Record </tr>
-  </tbody>
-</table>
+    </mat-card-content>
+  </mat-card>
 
-<button (click)="showAll()">Show all</button>
+  <mat-card class="table-card">
+    <mat-card-header>
+      <mat-card-title>Product Inventory</mat-card-title>
+      <mat-card-subtitle>{{ productCount() }} product(s) in stock</mat-card-subtitle>
+      <span class="spacer"></span>
+      <button
+        mat-stroked-button
+        color="warn"
+        [disabled]="!hasProducts()"
+        (click)="clearAll()"
+      >
+        <mat-icon>delete_sweep</mat-icon>
+        Clear All
+      </button>
+    </mat-card-header>
+    <mat-card-content>
+      @if (hasProducts()) {
+        <table mat-table [dataSource]="products()" class="product-table">
+          <ng-container matColumnDef="index">
+            <th mat-header-cell *matHeaderCellDef>#</th>
+            <td mat-cell *matCellDef="let element; let i = index">
+              <mat-chip-set>
+                <mat-chip>{{ i + 1 }}</mat-chip>
+              </mat-chip-set>
+            </td>
+          </ng-container>
 
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef>Product Name</th>
+            <td mat-cell *matCellDef="let element">
+              <strong>{{ element.name }}</strong>
+            </td>
+          </ng-container>
 
-<button (click)="showAllWrong()">Show all wrong</button>
+          <ng-container matColumnDef="price">
+            <th mat-header-cell *matHeaderCellDef>Price</th>
+            <td mat-cell *matCellDef="let element">
+              <span class="price-tag">{{ element.price | number:'1.2-2' }}</span>
+            </td>
+          </ng-container>
 
-<button (click)="showAllExtra()">Show all extra</button>
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef>Actions</th>
+            <td mat-cell *matCellDef="let element; let i = index">
+              <button
+                mat-icon-button
+                color="warn"
+                (click)="removeProduct(i)"
+              >
+                <mat-icon>delete</mat-icon>
+              </button>
+            </td>
+          </ng-container>
 
-<div *ngIf="showAllTriggered && (products | async)?.length; else noProducts">
-  <h3>Product List</h3>
-  <ul>
-    <li *ngFor="let product of products | async">
-      <strong>Name:</strong> {{ product.name }}, <strong>Price:</strong> {{ product.price }}
-    </li>
-  </ul>
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+      } @else {
+        <div class="empty-state">
+          <mat-icon class="empty-icon">inventory_2</mat-icon>
+          <h3>No Products Yet</h3>
+          <p>Add your first product using the form above.</p>
+        </div>
+      }
+    </mat-card-content>
+  </mat-card>
 </div>
-<ng-template #noProducts>
-  <p>No products available.</p>
-</ng-template>

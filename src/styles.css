@@ -1,1 +1,64 @@
-/* You can add global styles to this file, and also import other style files */
+@use '@angular/material' as mat;
+
+html, body {
+  height: 100%;
+  margin: 0;
+  font-family: 'Roboto', sans-serif;
+}
+
+body {
+  background: #fafafa;
+}
+
+.mat-mdc-card {
+  border-radius: 12px !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;
+}
+
+.mat-mdc-form-field {
+  width: 100%;
+}
+
+.mat-mdc-table {
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.mat-mdc-row:hover {
+  background: rgba(0, 0, 0, 0.02) !important;
+}
+
+.mat-mdc-header-cell {
+  background: #fafafa !important;
+  font-weight: 600 !important;
+  color: rgba(0, 0, 0, 0.7) !important;
+}
+
+.mat-mdc-raised-button.mat-primary,
+.mat-mdc-fab.mat-primary,
+.mat-mdc-extended-fab.mat-primary {
+  background: #673ab7 !important;
+  color: white !important;
+}
+
+.mat-mdc-snack-bar-container {
+  border-radius: 8px !important;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}

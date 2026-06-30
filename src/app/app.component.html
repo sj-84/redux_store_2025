@@ -1,3 +1,17 @@
-<app-product></app-product>
-
-<router-outlet></router-outlet>
+<mat-sidenav-container class="app-container">
+  <mat-sidenav
+    #sidenav
+    [mode]="'side'"
+    [opened]="sidenavOpen()"
+    class="app-sidenav"
+  >
+    <app-sidebar />
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <app-navbar (toggleSidebar)="sidenav.toggle()" />
+    <main class="content">
+      <router-outlet />
+    </main>
+    <app-footer />
+  </mat-sidenav-content>
+</mat-sidenav-container>

@@ -5,7 +5,12 @@
   "projects": {
     "angular-ngrx": {
       "projectType": "application",
-      "schematics": {},
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "css",
+          "standalone": true
+        }
+      },
       "root": "",
       "sourceRoot": "src",
       "prefix": "app",
@@ -16,32 +21,17 @@
             "outputPath": "dist/angular-ngrx",
             "index": "src/index.html",
             "main": "src/main.ts",
-            "polyfills": [
-              "zone.js"
-            ],
+            "polyfills": ["zone.js"],
             "tsConfig": "tsconfig.app.json",
-            "assets": [
-              "src/favicon.ico",
-              "src/assets"
-            ],
-            "styles": [
-              "src/styles.css"
-            ],
+            "assets": ["src/favicon.ico", "src/assets"],
+            "styles": ["node_modules/@angular/material/prebuilt-themes/indigo-pink.css", "src/styles.css"],
             "scripts": []
           },
           "configurations": {
             "production": {
               "budgets": [
-                {
-                  "type": "initial",
-                  "maximumWarning": "500kb",
-                  "maximumError": "1mb"
-                },
-                {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "2kb",
-                  "maximumError": "4kb"
-                }
+                { "type": "initial", "maximumWarning": "2mb", "maximumError": "5mb" },
+                { "type": "anyComponentStyle", "maximumWarning": "6kb", "maximumError": "10kb" }
               ],
               "outputHashing": "all"
             },
@@ -59,43 +49,74 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
-            "production": {
-              "browserTarget": "angular-ngrx:build:production"
-            },
-            "development": {
-              "browserTarget": "angular-ngrx:build:development"
-            }
+            "production": { "buildTarget": "angular-ngrx:build:production" },
+            "development": { "buildTarget": "angular-ngrx:build:development" }
           },
           "defaultConfiguration": "development"
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
-          "options": {
-            "browserTarget": "angular-ngrx:build"
-          }
+          "options": { "buildTarget": "angular-ngrx:build" }
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "polyfills": [
-              "zone.js",
-              "zone.js/testing"
-            ],
+            "polyfills": ["zone.js", "zone.js/testing"],
             "tsConfig": "tsconfig.spec.json",
-            "assets": [
-              "src/favicon.ico",
-              "src/assets"
-            ],
-            "styles": [
-              "src/styles.css"
-            ],
+            "assets": ["src/favicon.ico", "src/assets"],
+            "styles": ["src/styles.css"],
             "scripts": []
           }
         }
       }
+    },
+    "mfe-dashboard": {
+      "projectType": "application",
+      "root": "projects/mfe-dashboard",
+      "sourceRoot": "projects/mfe-dashboard/src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/mfe-dashboard",
+            "index": "projects/mfe-dashboard/src/index.html",
+            "main": "projects/mfe-dashboard/src/main.ts",
+            "polyfills": ["zone.js"],
+            "tsConfig": "projects/mfe-dashboard/tsconfig.app.json",
+            "assets": ["projects/mfe-dashboard/src/favicon.ico"],
+            "styles": ["node_modules/@angular/material/prebuilt-themes/indigo-pink.css", "projects/mfe-dashboard/src/styles.css"],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                { "type": "initial", "maximumWarning": "500kb", "maximumError": "1mb" },
+                { "type": "anyComponentStyle", "maximumWarning": "4kb", "maximumError": "8kb" }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "configurations": {
+            "production": { "buildTarget": "mfe-dashboard:build:production" },
+            "development": { "buildTarget": "mfe-dashboard:build:development" }
+          },
+          "defaultConfiguration": "development"
+        }
+      }
     }
   },
-  "cli": {
-    "analytics": "1dc4c450-072b-45f8-93a9-22cae31d96e7"
-  }
+  "cli": { "analytics": false }
 }
