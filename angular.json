@@ -18,7 +18,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/angular-ngrx",
+            "outputPath": "dist/angular-ngrx/browser",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": ["zone.js"],
@@ -34,7 +34,17 @@
                 { "type": "initial", "maximumWarning": "2mb", "maximumError": "5mb" },
                 { "type": "anyComponentStyle", "maximumWarning": "6kb", "maximumError": "10kb" }
               ],
-              "outputHashing": "all"
+              "outputHashing": "all",
+              "optimization": {
+                "scripts": true,
+                "styles": {
+                  "minify": true,
+                  "inlineCritical": true
+                },
+                "fonts": {
+                  "inline": false
+                }
+              }
             },
             "development": {
               "buildOptimizer": false,
@@ -68,6 +78,60 @@
             "styles": ["src/styles.css"],
             "scripts": []
           }
+        },
+        "server": {
+          "builder": "@angular-devkit/build-angular:server",
+          "options": {
+            "outputPath": "dist/angular-ngrx/server",
+            "main": "server.ts",
+            "tsConfig": "tsconfig.server.json"
+          },
+          "configurations": {
+            "production": {
+              "outputHashing": "media"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "sourceMap": true,
+              "extractLicenses": false,
+              "vendorChunk": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve-ssr": {
+          "builder": "@angular-devkit/build-angular:ssr-dev-server",
+          "configurations": {
+            "development": {
+              "browserTarget": "angular-ngrx:build:development",
+              "serverTarget": "angular-ngrx:server:development"
+            },
+            "production": {
+              "browserTarget": "angular-ngrx:build:production",
+              "serverTarget": "angular-ngrx:server:production"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "prerender": {
+          "builder": "@angular-devkit/build-angular:prerender",
+          "options": {
+            "routes": [
+              "/"
+            ]
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "angular-ngrx:build:production",
+              "serverTarget": "angular-ngrx:server:production"
+            },
+            "development": {
+              "browserTarget": "angular-ngrx:build:development",
+              "serverTarget": "angular-ngrx:server:development"
+            }
+          },
+          "defaultConfiguration": "production"
         }
       }
     },

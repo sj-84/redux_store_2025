@@ -28,6 +28,12 @@ import { MatIconModule } from '@angular/material/icon';
         <span matListItemTitle>Products</span>
       </a>
 
+      <!-- SSR Overview link -->
+      <a mat-list-item routerLink="/ssr-overview" routerLinkActive="active-link">
+        <mat-icon matListItemIcon>cloud_queue</mat-icon>
+        <span matListItemTitle>SSR Overview</span>
+      </a>
+
       <!-- Visual divider between navigation sections -->
       <mat-divider></mat-divider>
 

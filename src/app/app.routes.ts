@@ -22,6 +22,13 @@ export const routes: Routes = [
       import('./product/product.component').then((m) => m.ProductComponent),
   },
 
+  // SSR Overview route: lazy-loads the SsrOverviewComponent standalone component
+  {
+    path: 'ssr-overview',
+    loadComponent: () =>
+      import('./ssr-overview/ssr-overview.component').then((m) => m.SsrOverviewComponent),
+  },
+
   // Wildcard route: redirects any unknown paths to dashboard
   { path: '**', redirectTo: 'dashboard' },
 ];
